@@ -1,3 +1,5 @@
+'use strict'
+
 let operation = null;
 let operand1 = null;
 let operand2 = null;
@@ -7,9 +9,9 @@ function add(a, b) { return a + b }
 function sub(a, b) { return a - b }
 function div(a, b) { return a / b }
 function mult(a, b) { return a * b }
-function operand(operandIndex){
+function getOperand(operandIndex){
     let operand;
-
+    
     do {
         operand = +prompt('Operand ' + operandIndex, '2');
     } while (isNaN(operand));
