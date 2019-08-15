@@ -1,8 +1,2 @@
-function abc(){
-        // console.log(b);
-        let b = 'abc'
-
-    console.log(b);
-}
-
-abc()
+const str = 'abc';
+str.toUpperCase();
