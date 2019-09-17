@@ -1,15 +1,12 @@
-function Animal(name){
-
-    this.eat = function(){
-        console.log(`${this.name} is eating`);
+class Animal{
+    run(){
+        console.log('running');
     }
 }
 
-Animal.prototype.name = 'NAME';
-Animal.prototype.run = function(){
-    console.log(`${this.name} is running`);
+class Cat extends Animal{
+    run(){
+        super.run();
+        console.log('jumping');
+    }
 }
-
-
-const dino = new Animal('Dinozaur');
-const raptor = new Animal('Raptor');

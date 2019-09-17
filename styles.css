@@ -1,3 +1,7 @@
-.clicked{
+.clickable-element{
     background-color: blue;
- }
+}
+
+.clickable-element-clicked{
+    background-color: red;
+}
