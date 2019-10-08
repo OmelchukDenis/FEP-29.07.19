@@ -1,12 +1,8 @@
-class Animal{
-    run(){
-        console.log('running');
-    }
-}
+const prom = fetch('https://jsonplaceholder.typicode.com/users')
 
-class Cat extends Animal{
-    run(){
-        super.run();
-        console.log('jumping');
-    }
-}
+prom.then((resp) => {
+    resp.json().then((data) => {
+        console.log(data);
+    })
+
+})
