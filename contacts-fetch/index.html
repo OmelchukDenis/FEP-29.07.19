@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Contacts</title>
+    <link rel="stylesheet" href="../common/css/normalize.css">
+    <link rel="stylesheet" href="../common/css/skeleton.css">
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./app.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="four columns">
+                <div id="usersList"></div>
+                <button id="addNewUserBtn">Add new</button>
+            </div>
+            <div id="userInfo" class="eight columns">
+                <form id="userForm">
+                    <input type="hidden" id="idInput">
+                    <div class="row">
+                        <div class="six columns">
+                            <label for="nameInput">Name</label>
+                            <input class="u-full-width" type="text" placeholder="Name" id="nameInput">
+                        </div>
+                        <div class="six columns">
+                            <label for="usernameInput">User email</label>
+                            <input class="u-full-width" type="text" placeholder="Username" id="usernameInput">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="six columns">
+                            <label for="phoneInput">Phone</label>
+                            <input class="u-full-width" type="text" placeholder="010-692-6593" id="phoneInput">
+                        </div>
+                        <div class="six columns">
+                            <label for="emailInput">Email</label>
+                            <input class="u-full-width" type="email" placeholder="test@mailbox.com" id="emailInput">
+                        </div>
+                    </div>
+                    <input class="button u-pull-left delete-button" id="deleteUserBtn" type="button" value="Delete">
+                    <input class="button-primary u-pull-right submit-button" id="saveUserBtn" type="submit" value="Submit">
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="loadingSpinner">
+        Loading...
+    </div>
+
+    <script type="text/template" id="userRowTemplate">
+        <div class="row">
+            <div id="userItem{{id}}" class="twelve columns list-item" data-user-id="{{id}}">{{name}}</div>
+        </div>
+    </script>
+
+</body>
+</html>

@@ -6,11 +6,25 @@ const taskItemTemplate = document.getElementById('taskItemTemplate').innerHTML;
 addTaskForm.addEventListener('submit', onAddTaskFormSubmit);
 taskList.addEventListener('click', onTaskListClick);
 
+getList();
+
+function getList(){
+    return fetch('https://jsonplaceholder.typicode.com/todos?_limit=15')
+        .then(res => res.json())
+        .then(renderList)
+}
+
+function renderList(data){
+    data.forEach(addTask);
+}
+
 function onAddTaskFormSubmit(event){
     event.preventDefault();
 
     submitForm();
 }
+
+
 
 function onTaskListClick(event){
     switch (true){
@@ -25,13 +39,27 @@ function onTaskListClick(event){
 
 function submitForm(){
     const task = { title: taskNameInput.value };
+    fetch('https://jsonplaceholder.typicode.com/todos/', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+        body: JSON.stringify(task)
+    })
+    .then((res) => res.json())
+    .then((data) => {
+        task.id = data.id;
+        addTask(task);
+    });
 
-    addTask(task);
     resetForm();
 }
 
 function addTask(task){
-    const html = taskItemTemplate.replace('{{title}}', task.title);
+    const html = taskItemTemplate
+        .replace('{{title}}', task.title)
+        .replace('{{id}}', task.id);
 
     const newTaskEl = htmlToElement(html)
     taskList.appendChild(newTaskEl);
@@ -46,7 +74,11 @@ function toggleTaskState(el){
 }
 
 function deleteTask(el){
-    el.remove();
+    fetch('https://jsonplaceholder.typicode.com/todos/' + el.dataset.todoId, {
+        method: 'DELETE'
+    }).then(() => {
+        el.remove();
+    })
 }
 
 function htmlToElement(html) {
