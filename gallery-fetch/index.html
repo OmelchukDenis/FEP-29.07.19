@@ -12,15 +12,17 @@
     <title>Photo Gallery</title>
 </head>
 <body>
-    <div id="container" class="gallery-container">
-    </div>
+    <div id="gallery" class="gallery"></div>
+    <div class="full-image-container"><img id="fullImage" src=""></div>
+    <div class="full-image-backgroud"></div>
+    <ul id="pagination" class="gallery-pagination">
+
+    </ul>
     <script type="text/template" id="galleryItemTemplate">
         <img class="gallery-item" src="{{url}}" alt="{{title}}" data-full-image-url="{{fullImageUrl}}"/>
     </script>
-    <script type="text/template">
-        <div id="gallery" class="gallery"></div>
-        <div class="full-image-container"><img id="fullImage" src=""></div>
-        <div class="full-image-backgroud"></div>
+    <script type="text/template" id="paginationItemTemplate">
+        <li data-page-index="{{index}}" class="pagination-item">{{title}}</li>
     </script>
 </body>
 </html>
