@@ -1,7 +1,25 @@
-.clickable-element{
-    background-color: blue;
+.todo-list{
+    margin-bottom: 20px;
 }
 
-.clickable-element-clicked{
-    background-color: red;
+.todo-list-item {
+    color: #555;
+    border: 1px solid #bbb;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin: 5px 0;
+    font-size: 20px;
+    background-color: lightyellow;
+}
+
+.todo-list-item.done {
+    background-color: lightgreen;
+}
+
+.todo-list-item .delete-button{
+    float: right;
+    padding: 0 10px 5px;
+    color: red;
+    font-weight: bold;
+    border: 1px solid brown
 }
