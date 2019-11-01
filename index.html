@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <script src="script.js" async></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" defer></script>
+    <script src="script.js" defer></script>
     <link rel="stylesheet" href="./common/css/normalize.css">
     <link rel="stylesheet" href="./common/css/skeleton.css">
     <link rel="stylesheet" href="./common/css/dark-theme.css">
@@ -15,17 +16,15 @@
     <div id="todoList" class="todo-list u-full-width">
 
     </div>
-    <div class="row">
-        <form action="" id="newTodoItemForm">
-            <input type="text" id="newTodoItemTitleInput" class="four columns">
-            <button>Save</button>
-        </form>
-    </div>
+    <form action="" id="newTodoForm">
+        <input type="text" name="title" />
+        <button>Save</button>
+    </form>
 
-    <script type="text/template" id="todoListItemTemplate">
-        <div class="todo-list-item u-full-width {{class}}" data-todo-id="{{id}}">
+    <script type="text/template" id="todoItemTemplate">
+        <div data-todo-index="{{id}}" class="todo-item {{isDoneClass}}">
             {{title}}
-            <span class="delete-button">x</span>
+            <span class="delete-btn">x</span>
         </div>
     </script>
 </body>

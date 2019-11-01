@@ -1,130 +1,162 @@
-const TODO_ITEM_DONE_CLASS = 'done';
-const TODO_ITEM_CLASS = 'todo-list-item';
-const DELETE_BUTTON_CLASS = 'delete-button';
+$(function(){
+    const $todoList = $('#todoList');
+    const $newTodoForm = $('#newTodoForm');
+    const todoItemTemplate = $('#todoItemTemplate').html();
 
-const todoListElement = document.getElementById('todoList');
-const newTodoListForm = document.getElementById('newTodoItemForm');
-const newTodoItemTitleInput = document.getElementById('newTodoItemTitleInput');
-const todoListItemTemplate = document.getElementById('todoListItemTemplate').innerHTML;
+    let todoListItems = [
+        {
+            title: 'Hello',
+            isDone: true
+        },
+        {
+            title: 'Hello',
+            isDone: true
+        },
+        {
+            title: 'Hello',
+            isDone: true
+        },
+        {
+            title: 'Hello',
+            isDone: true
+        },
+        {
+            title: 'Hello',
+            isDone: true
+        },
+        {
+            title: 'Hello',
+            isDone: true
+        },
+        {
+            title: 'Hello',
+            isDone: true
+        },
+        {
+            title: 'Hello',
+            isDone: true
+        },
+        {
+            title: 'Another',
+            isDone: false
+        },
+        {
+            title: 'Third',
+            isDone: false
+        },
+    ].map((el, index) => {
+        el.id = index;
+        el.title = 'Title ' + index;
 
-todoListElement.addEventListener('click', onTodoListElementClick)
-newTodoListForm.addEventListener('submit', onNewTodoListFormSubmit)
+        return el;
+    });
 
-let todoListItems = [];
+    $todoList.on('click', '.delete-btn', onDeleteBtnClick)
+    $todoList.on('click', '.todo-item', onTodoItemClick)
+    $newTodoForm.on('submit', onNewTodoFormSubmit)
+    init();
 
-init();
-
-function onTodoListElementClick(e){
-    const element = e.target;
-    switch (true){
-        case element.classList.contains(DELETE_BUTTON_CLASS):
-                deleteTodoItem(element.parentElement.dataset.todoId);
-            break;
-        case element.classList.contains(TODO_ITEM_CLASS):
-                toggleTodoItem(element.dataset.todoId)
-            break;
-    }
-}
-
-function onNewTodoListFormSubmit(e){
-    e.preventDefault();
-
-    submitTodoItem();
-}
-
-function init(){
-    todoListItems = getState();
-    renderList(todoListItems);
-}
-
-function rerender(){
-    renderList(todoListItems);
-}
-
-function renderList(list){
-    const todoItemsHtml = list.map(getTodoItemHtml);
-
-    todoListElement.innerHTML = todoItemsHtml.join('\n');
-}
-
-function getTodoItemHtml(todo){
-        return todoListItemTemplate
-            .replace('{{id}}', todo.id)
-            .replace('{{title}}', todo.title)
-            .replace('{{class}}', todo.isDone ? TODO_ITEM_DONE_CLASS : '')
-}
-
-function deleteTodoItem(todoId){
-    todoListItems = todoListItems.filter(el => el.id != todoId);
-    saveState();
-
-    deleteTodoItemElement(todoId);
-}
-
-function deleteTodoItemElement(id){
-    const element = getTodoItemElement(id);
-
-    element && element.remove();
-}
-
-function getTodoItemElement(id){
-    return todoListElement.querySelector(`[data-todo-id="${id}"]`)
-}
-
-function toggleTodoItem(id){
-    const todo = todoListItems.find((el) => el.id == id);
-
-    todo.isDone = !todo.isDone;
-    saveState();
-
-    setTodoElementClass(todo);
-}
-
-function setTodoElementClass(todo){
-    const element = getTodoItemElement(todo.id);
-
-    if ( todo.isDone){
-        element.classList.add(TODO_ITEM_DONE_CLASS)
-    } else {
-        element.classList.remove(TODO_ITEM_DONE_CLASS)
-    }
-}
-
-function submitTodoItem(){
-    createTodoItem(newTodoItemTitleInput.value);
-
-    newTodoListForm.reset();
-}
-
-function createTodoItem(title){
-    const newTodo = {
-        title,
-        id: Date.now(),
-        isDone: false
+    function init(){
+        fetchTodoList();
+        // renderTodoList();
     }
 
-    addTodoItem(newTodo);
-}
+    function fetchTodoList(){
+        $.ajax('https://jsonplaceholder.typicode.com/todos')
+            .done((data) => {
+                setData(data);
+            })
+            .fail()
+            .always()
+    }
 
-function addTodoItem(todo){
-    todoListItems.push(todo);
-    saveState();
+    function onDeleteBtnClick(e){
+        const $todoItem = $(this).parent();
 
-    addTodoItemElement(todo);
-}
+        deleteTodoItem($todoItem.data('todoIndex'));
+        
+    }
 
-function addTodoItemElement(todo){
-    const todoItemHtml = getTodoItemHtml(todo);
+    function onTodoItemClick(e){
+        toggleTodoItem($(this).data('todoIndex'));
+    }
 
-    todoListElement.insertAdjacentHTML('beforeend', todoItemHtml);
-}
+    function onNewTodoFormSubmit(e){
+        e.preventDefault();
 
-function saveState(){
-    localStorage.setItem('todoList', JSON.stringify(todoListItems));
-}
+        submitNewItem()
+    }
 
-function getState(){
-    const data = localStorage.getItem('todoList');
+    function setData(data){
+        todoListItems = data;
 
-    return data ? JSON.parse(data) : [];
-}
+        renderTodoList()
+    }
+
+    function renderTodoList(){
+        const todoListItemsHtml = todoListItems.map(el => {
+            return getTodoItemHtml(el);
+        });
+
+        $todoList.html(todoListItemsHtml.join(''));
+    }
+
+    function getTodoItemHtml({id, title, isDone}){
+        return todoItemTemplate
+                        .replace('{{id}}', id)
+                        .replace('{{title}}', title)
+                        .replace('{{isDoneClass}}', isDone ? 'done' : '')
+    }
+
+    function getTodoElementById(id){
+        return  $(`[data-todo-index="${id}"]`);
+    }
+
+    function deleteTodoItem(idToDelete){
+        $.ajax({
+            method: 'DELETE',
+            url: 'https://jsonplaceholder.typicode.com/todos/' + idToDelete
+        })
+        .done(() => {
+            todoListItems = todoListItems.filter(({id}) => id != idToDelete);
+    
+            getTodoElementById(idToDelete).remove();
+        })
+    }
+
+    function submitNewItem(){
+
+        const newTodoItem = {
+            id: Date.now(),
+            isDone: false
+        }
+
+        $newTodoForm.serializeArray().forEach(({name, value}) => {
+            newTodoItem[name] = value;
+        })
+
+        todoListItems.push(newTodoItem);
+
+        $todoList.append(getTodoItemHtml(newTodoItem))
+    }
+
+    function toggleTodoItem(idToToggle){
+
+        const todoItem = todoListItems.find(({id}) => id == idToToggle);
+
+        todoItem.isDone = !todoItem.isDone;
+
+        toggleTodoElementState(todoItem)
+    }
+
+    function toggleTodoElementState({id, isDone}){
+        const $todoItem = getTodoElementById(id);
+
+        $todoItem.removeClass('done')
+
+        if(isDone) {
+            $todoItem.addClass('done');
+        }
+    }
+
+})
