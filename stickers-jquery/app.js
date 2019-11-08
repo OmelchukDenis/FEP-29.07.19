@@ -1,5 +1,8 @@
+import popup from './popup';
+
 $(function () {
     let notes = [];
+    const notesMap = new Map();
     const noteTemplate = $('#noteTemplate').html();
     const $field = $('#field');
     const dialog = $('#dialog-form').dialog({
@@ -47,8 +50,15 @@ $(function () {
         const $note = $(this).closest('.note');
         const noteId = $note.data('id');
 
-        $note.remove();
+        deleteNoteElement(noteId)
+        
         deleteNote(noteId);
+    }
+
+    function deleteNoteElement(id){
+        const note = notes.find(note => note.id === id);
+        const $note = notesMap.get(note)
+        $note.remove();
     }
 
     function clearAll(){
@@ -85,6 +95,9 @@ $(function () {
             top: note.top
         });
 
+        notesSet.add($note[0]);
+
+        console.log(notesMap);
         $note[0].dataset.id = note.id;
         $field.append($note);
 

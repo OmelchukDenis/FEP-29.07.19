@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>GitHub users</title>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="../common/css/normalize.css">
+    <link rel="stylesheet" href="../common/css/skeleton.css">
+    <link rel="stylesheet" href="./styles.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="./app.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="twelve columns">
+                <input class="u-full-width" type="text" placeholder="search for users" id="searchInput">
+            </div>
+        </div>
+        <div class="row" id="userContainer">
+        </div>
+    </div>
+    <script type="text/template" id="userInfoTemplate">
+        <div class="twelve columns user-info">
+                <img src="{{avatar_url}}" alt="" class="user-avatar">
+                <h3>{{name}} <span class="user-link">( <a href="{{html_url}}">{{login}}</a> )</span></h3>
+                <div class="row">
+                    <div class="four columns info-block">
+                        <div class="info-value">{{public_repos}}</div>
+                        <div class="info-label">Repositiories</div>
+                    </div>
+                    <div class="four columns info-block">
+                        <div class="info-value">{{followers}}</div>
+                        <div class="info-label">Folowers</div>
+                    </div>
+                    <div class="four columns info-block">
+                        <div class="info-value">{{registration}}</div>
+                        <div class="info-label">Registration</div>
+                    </div>
+                </div>
+            </div>
+    </script>
+</body>
+</html>
