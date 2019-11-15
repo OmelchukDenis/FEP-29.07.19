@@ -1,13 +1,15 @@
 {
-  "name": "node-hw",
+  "name": "my-app",
   "version": "1.0.0",
-  "main": "main.js",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "node main",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  }
 }
